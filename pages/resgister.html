@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Register | Auth API</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+
+  <body>
+    <main class="auth-wrapper">
+      <!-- LEFT SIDE -->
+
+      <section class="hero-side">
+        <div class="hero-content">
+          <span class="hero-badge"> Backend Authentication API </span>
+
+          <h1>
+            Sistema de autenticação
+            <span>moderno e escalável</span>
+          </h1>
+
+          <p>
+            Projeto full stack focado em autenticação segura, arquitetura
+            organizada e integração moderna entre frontend e backend utilizando
+            Node.js.
+          </p>
+
+          <div class="feature-card">
+            <div class="icon-box">🔐</div>
+
+            <div>
+              <h5>Autenticação Segura</h5>
+
+              <p>Sistema com sessões, validações e fluxo 2FA.</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">⚙️</div>
+
+            <div>
+              <h5>Arquitetura Profissional</h5>
+
+              <p>
+                Separação entre controllers, services e frontend desacoplado.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">🚀</div>
+
+            <div>
+              <h5>Integração Moderna</h5>
+
+              <p>Consumo de API REST com Axios e integração social login.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDE -->
+
+      <section class="form-side">
+        <div class="form-container">
+          <div class="form-header">
+            <h2>Criar Conta</h2>
+
+            <p>Cadastre-se na plataforma de autenticação.</p>
+          </div>
+
+          <form id="registerForm">
+            <!-- NAME -->
+
+            <div class="mb-3">
+              <label class="form-label"> Nome completo </label>
+
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                placeholder="Digite seu nome"
+              />
+            </div>
+
+            <!-- EMAIL -->
+
+            <div class="mb-3">
+              <label class="form-label"> E-mail </label>
+
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Digite seu e-mail"
+              />
+            </div>
+
+            <!-- PASSWORD -->
+
+            <div class="mb-3">
+              <label class="form-label"> Senha </label>
+
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Crie uma senha"
+              />
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="mb-4">
+              <label class="form-label"> Confirmar senha </label>
+
+              <input
+                type="password"
+                id="confirmPassword"
+                class="form-control"
+                placeholder="Confirme sua senha"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-register">Criar conta</button>
+          </form>
+
+          <div class="separator">
+            <span> ou </span>
+          </div>
+
+          <button class="btn-google">Continuar com Google</button>
+
+          <div class="login-link">
+            Já possui conta?
+
+            <a href="#"> Entrar </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MODAL -->
+
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content"
+          style="
+            background: #0f172a;
+            color: white;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+          "
+        >
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="feedbackModalTitle">Mensagem</h5>
+
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="feedbackModalMessage" style="color: #cbd5e1; margin: 0">
+              Mensagem aqui
+            </p>
+          </div>
+
+          <div class="modal-footer border-0">
+            <button
+              type="button"
+              class="btn btn-register"
+              data-bs-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AXIOS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- BOOTSTRAP -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- REGISTER JS -->
+
+    <script src="../js/pages/register.js"></script>
+  </body>
+</html>

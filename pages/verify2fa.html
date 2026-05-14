@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Verificação | Auth API</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+
+  <body>
+    <main class="auth-wrapper">
+      <!-- LEFT SIDE -->
+
+      <section class="hero-side">
+        <div class="hero-content">
+          <span class="hero-badge"> Secure Verification Platform </span>
+
+          <h1>
+            Verifique sua
+            <span>conta</span>
+          </h1>
+
+          <p>
+            Para concluir a autenticação, informe o código enviado para seu
+            e-mail. O código possui tempo limitado por segurança.
+          </p>
+
+          <div class="feature-card">
+            <div class="icon-box">🔐</div>
+
+            <div>
+              <h5>Verificação Segura</h5>
+
+              <p>
+                Tokens temporários e proteção adicional contra acessos
+                indevidos.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">⚡</div>
+
+            <div>
+              <h5>Expiração Inteligente</h5>
+
+              <p>Códigos expiram automaticamente para maior segurança.</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">📩</div>
+
+            <div>
+              <h5>Reenvio de Código</h5>
+
+              <p>Gere um novo código caso o anterior expire.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDE -->
+
+      <section class="form-side">
+        <div class="form-container">
+          <div class="form-header">
+            <h2>Confirmar conta</h2>
+
+            <p>Digite o código enviado para seu e-mail.</p>
+          </div>
+
+          <!-- FORM -->
+
+          <form id="verifyForm">
+            <div class="mb-3">
+              <label class="form-label"> Código de verificação </label>
+
+              <input
+                id="token"
+                type="text"
+                class="form-control verify-input"
+                placeholder="000000"
+                maxlength="6"
+              />
+
+              <small id="tokenError" class="text-danger d-block mt-2"> </small>
+            </div>
+
+            <div class="countdown-text">
+              Código expira em:
+              <span id="countdown"> 05:00 </span>
+            </div>
+
+            <button type="submit" class="btn btn-register verify-btn">
+              Verificar conta
+            </button>
+          </form>
+
+          <div class="separator">
+            <span> ou </span>
+          </div>
+
+          <button id="resendTokenBtn" class="btn-google">
+            Reenviar código
+          </button>
+
+          <div class="login-link">
+            Voltar para
+
+            <a href="./login.html"> login </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MODAL -->
+
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content"
+          style="
+            background: #0f172a;
+            color: white;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+          "
+        >
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="feedbackModalTitle">Mensagem</h5>
+
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="feedbackModalMessage" style="color: #cbd5e1; margin: 0">
+              Mensagem aqui
+            </p>
+          </div>
+
+          <div class="modal-footer border-0">
+            <button
+              type="button"
+              class="btn btn-register"
+              data-bs-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AXIOS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- BOOTSTRAP -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- VERIFY JS -->
+
+    <script src="../js/pages/verify.js"></script>
+  </body>
+</html>
