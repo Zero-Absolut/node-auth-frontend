@@ -85,19 +85,19 @@
               <label class="form-label"> Código de verificação </label>
 
               <input
-                id="token"
+                id="code"
                 type="text"
                 class="form-control verify-input"
                 placeholder="000000"
                 maxlength="6"
               />
 
-              <small id="tokenError" class="text-danger d-block mt-2"> </small>
+              <small id="tokenError" class="text-danger d-block mt-2"></small>
             </div>
 
             <div class="countdown-text">
               Código expira em:
-              <span id="countdown"> 05:00 </span>
+              <span id="countdown">05:00</span>
             </div>
 
             <button type="submit" class="btn btn-register verify-btn">
@@ -106,7 +106,7 @@
           </form>
 
           <div class="separator">
-            <span> ou </span>
+            <span>ou</span>
           </div>
 
           <button id="resendTokenBtn" class="btn-google">
@@ -115,8 +115,7 @@
 
           <div class="login-link">
             Voltar para
-
-            <a href="./login.html"> login </a>
+            <a href="./login.html">login</a>
           </div>
         </div>
       </section>
@@ -126,32 +125,23 @@
 
     <div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content"
-          style="
-            background: #0f172a;
-            color: white;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-          "
-        >
-          <div class="modal-header border-0">
+        <div class="modal-content">
+          <div class="modal-header">
             <h5 class="modal-title" id="feedbackModalTitle">Mensagem</h5>
 
             <button
               type="button"
-              class="btn-close btn-close-white"
+              class="btn-close"
               data-bs-dismiss="modal"
+              aria-label="Fechar"
             ></button>
           </div>
 
           <div class="modal-body">
-            <p id="feedbackModalMessage" style="color: #cbd5e1; margin: 0">
-              Mensagem aqui
-            </p>
+            <p id="feedbackModalMessage">Mensagem aqui</p>
           </div>
 
-          <div class="modal-footer border-0">
+          <div class="modal-footer">
             <button
               type="button"
               class="btn btn-register"
@@ -174,6 +164,6 @@
 
     <!-- VERIFY JS -->
 
-    <script src="../js/pages/verify.js"></script>
+    <script src="../js/pages/verify2fa.js"></script>
   </body>
 </html>

@@ -26,36 +26,91 @@ const apiLogin = async (data) => {
 
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
+
   if (!loginForm) return;
 
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    // LIMPA ERROS ANTIGOS
+    document.getElementById("emailError").innerHTML = "";
+    document.getElementById("loginError").innerHTML = "";
 
     const data = {
       email: document.getElementById("email").value,
       password: document.getElementById("password").value,
     };
 
-    const resposnseApi = await apiLogin(data);
+    const responseApi = await apiLogin(data);
 
+    console.log(responseApi.data);
+
+    //conta nao ativa
+    if (responseApi.data.code === "ACCOUNT_NOT_ACTIVE") {
+      showModal("Conta não ativada", responseApi.data.message);
+
+      setTimeout(() => {
+        window.location.href =
+          "http://127.0.0.1:5500/pages/verify-account.html";
+      }, 3000);
+
+      return;
+    }
+
+    //conta bloqueada
+    if (responseApi.data.code === "ACCOUNT_BLOCKED") {
+      showModal("Erro", responseApi.data.message);
+
+      setTimeout(() => {
+        window.location.href = "http://127.0.0.1:5500/pages/blocked.html";
+      }, 6000);
+
+      return;
+    }
+
+    // 2fa
+
+    if (responseApi.data.code === "TWO_FACTOR_REQUIRED") {
+      showModal("Sucesso", responseApi.data.message);
+
+      setTimeout(() => {
+        window.location.href = "http://127.0.0.1:5500/pages/verify2fa.html";
+      }, 3000);
+
+      return;
+    }
+
+    // login invalido
     if (
-      !resposnseApi.data.success &&
-      resposnseApi.data.code !== "ACCOUNT_NOT_ACTIVE"
+      responseApi.data.code === "INVALID_CREDENTIALS" ||
+      responseApi.data.code === "USER_NOT_FOUND"
     ) {
+      let failedAttempts =
+        parseInt(responseApi.data.failed_login_attempts) || 0;
+
       document.getElementById("emailError").innerHTML =
-        resposnseApi.data.message;
+        responseApi.data.message;
+
+      document.getElementById("loginError").innerHTML =
+        "Tentativas restantes de login: " + (5 - failedAttempts);
 
       return;
     }
-    if (resposnseApi.data.code === "ACCOUNT_NOT_ACTIVE") {
-      window.location.href = "http://127.0.0.1:5500/pages/verify-account.html";
+
+    //erro de email
+    if (responseApi.data.code === "EMAIL_NOT_SENT") {
+      showModal("Erro", responseApi.data.message);
 
       return;
     }
+    // erro servidor
+    if (
+      responseApi.data.code === "DATABASE_ACCESS_ERROR" ||
+      responseApi.data.code === "INTERNAL_ERROR"
+    ) {
+      showModal("Erro interno", "Falha ao processar sua solicitação.");
 
-    if (resposnseApi.data.code === "TWO_FACTOR_REQUIRED") {
-      showModal("Sucesso", resposnseApi.data.message);
-      window.location.href = "http://127.0.0.1:5500/pages/verify2fa.html";
+      return;
     }
   });
 });

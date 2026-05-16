@@ -52,11 +52,15 @@ document.addEventListener(
 
         const apiResponse = await apiRegister(data);
 
+        console.log(apiResponse.data);
+
         if (!apiResponse) {
           showModal("Erro", "Erro inesperado.");
 
           return;
         }
+
+        // erro de formulario
         let messageErrors = "";
 
         if (apiResponse.data.errors) {
@@ -71,6 +75,35 @@ document.addEventListener(
           return;
         }
 
+        // erro de usuario exixtente
+        if (apiResponse.data.code === "USER_ALREADY_EXISTS") {
+          showModal("Erro", apiResponse.data.message);
+
+          return;
+        }
+
+        // erro de falha do envio de email
+        if (apiResponse.data.code === "USER_CREATED_EMAIL_FAILED") {
+          showModal("Atenção", apiResponse.data.message);
+
+          return;
+        }
+
+        // erro da base de dads
+        if (apiResponse.data.code === "DATABASE_ACCESS_ERROR") {
+          showModal("Erro interno", apiResponse.data.message);
+
+          return;
+        }
+
+        // erro servidor
+        if (apiResponse.data.code === "INTERNAL_ERROR") {
+          showModal("Erro interno", apiResponse.data.message);
+
+          return;
+        }
+
+        // cadastro
         if (apiResponse.data.success) {
           showModal("Sucesso", apiResponse.data.message);
 
