@@ -11,7 +11,7 @@ const showModal = (title, message) => {
 const apiLogin = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/auth/login",
+      "http://127.0.0.1:8080/api/auth/login",
       data,
       {
         withCredentials: true,

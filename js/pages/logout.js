@@ -3,7 +3,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 logoutBtn.addEventListener("click", async () => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/auth/logout",
+      "http://127.0.0.1:8080/api/auth/logout",
       {},
       {
         withCredentials: true,

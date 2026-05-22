@@ -13,7 +13,7 @@ function showModal(title, message) {
 const verify2fa = async (code) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/auth/verify-2fa",
+      "http://127.0.0.1:8080/api/auth/verify-2fa",
 
       {
         code: code,
@@ -68,4 +68,28 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 2500);
     }
   });
+
+  const resendBtn = document.getElementById("resendTokenBtn");
+
+  if (resendBtn) {
+    resendBtn.addEventListener("click", async () => {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8080/api/auth/resend-2fa",
+          {},
+          {
+            withCredentials: true,
+          },
+        );
+
+        showModal(
+          response.data.success ? "Sucesso" : "Erro",
+          response.data.message,
+        );
+      } catch (error) {
+        console.error(error);
+        showModal("Erro", "Falha ao reenviar código.");
+      }
+    });
+  }
 });
