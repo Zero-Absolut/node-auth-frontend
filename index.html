@@ -2,9 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Dashboard | Auth API</title>
 
     <link
@@ -13,406 +11,365 @@
     />
 
     <link rel="stylesheet" href="../css/style.css" />
-
-    <style>
-      body {
-        background: #020617;
-      }
-
-      .dashboard-wrapper {
-        width: 100%;
-        min-height: 100vh;
-
-        padding: 30px;
-      }
-
-      .topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        margin-bottom: 30px;
-      }
-
-      .topbar h1 {
-        font-size: 2.4rem;
-        font-weight: 700;
-      }
-
-      .topbar p {
-        color: #94a3b8;
-        margin-top: 8px;
-      }
-
-      .dashboard-card {
-        padding: 24px;
-
-        border-radius: 24px;
-
-        background: rgba(255, 255, 255, 0.05);
-
-        backdrop-filter: blur(10px);
-
-        border: 1px solid rgba(255, 255, 255, 0.05);
-
-        height: 100%;
-      }
-
-      .dashboard-card h5 {
-        margin-bottom: 12px;
-
-        font-size: 1rem;
-      }
-
-      .dashboard-card p {
-        margin: 0;
-
-        color: #cbd5e1;
-      }
-
-      .metric-number {
-        font-size: 2rem;
-        font-weight: 700;
-
-        margin-bottom: 8px;
-      }
-
-      .section-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-
-        margin-bottom: 20px;
-      }
-
-      .status-online {
-        color: #22c55e;
-        font-weight: 600;
-      }
-
-      .activity-item {
-        padding: 16px 0;
-
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        color: #cbd5e1;
-      }
-
-      .activity-item:last-child {
-        border-bottom: none;
-      }
-
-      .activity-time {
-        color: #64748b;
-        font-size: 0.9rem;
-      }
-
-      .map-box {
-        width: 100%;
-        height: 220px;
-
-        border-radius: 18px;
-
-        overflow: hidden;
-
-        margin-top: 18px;
-      }
-
-      .map-box iframe {
-        width: 100%;
-        height: 100%;
-
-        border: none;
-      }
-
-      @media (max-width: 992px) {
-        .dashboard-wrapper {
-          padding: 20px;
-        }
-
-        .topbar {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 20px;
-        }
-
-        .topbar h1 {
-          font-size: 2rem;
-        }
-      }
-    </style>
   </head>
 
   <body>
     <main class="dashboard-wrapper container-fluid">
-      <!-- HEADER -->
-
-      <div class="topbar">
+      <header class="dashboard-header">
         <div>
-          <h1>Security Dashboard 🔐</h1>
-
-          <p>Painel moderno de autenticação e monitoramento da API.</p>
+          <span class="dashboard-badge">AUTH API</span>
+          <h1>Minha Conta</h1>
+          <p>Gerencie sua conta, sessões e configurações de segurança.</p>
         </div>
 
-        <button class="btn-register" id="logoutBtn">Logout</button>
-      </div>
+        <div class="dropdown">
+          <button
+            class="user-menu-btn dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <div class="avatar-circle" id="userAvatar">MF</div>
 
-      <!-- METRICS -->
+            <div class="user-menu-info">
+              <span id="userNameHeader"></span>
+              <small>Configurações de Conta</small>
+            </div>
+          </button>
 
-      <div class="row g-4 mb-4">
-        <div class="col-md-6 col-xl-3">
-          <div class="dashboard-card">
-            <div class="metric-number">154</div>
+          <ul class="dropdown-menu dropdown-menu-end custom-dropdown">
+            <li>
+              <a
+                class="dropdown-item"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#changeNameModal"
+              >
+                ✏️ Alterar Nome
+              </a>
+            </li>
 
-            <p>Usuários cadastrados</p>
+            <li>
+              <a
+                class="dropdown-item"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#changePasswordModal"
+              >
+                🔑 Alterar Senha
+              </a>
+            </li>
+
+            <li>
+              <a
+                class="dropdown-item text-danger"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteAccountModal"
+              >
+                🗑️ Excluir Conta
+              </a>
+            </li>
+
+            <li><hr class="dropdown-divider" /></li>
+
+            <li>
+              <button class="dropdown-item logout-item" id="logoutBtn">
+                🚪 Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </header>
+
+      <section class="row g-3 mb-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="metric-card">
+            <span class="metric-label">STATUS DA CONTA</span>
+            <h3 id="accountStatus">Ativa</h3>
           </div>
         </div>
 
-        <div class="col-md-6 col-xl-3">
-          <div class="dashboard-card">
-            <div class="metric-number">82</div>
-
-            <p>Sessões ativas</p>
+        <div class="col-lg-3 col-md-6">
+          <div class="metric-card">
+            <span class="metric-label">SESSÕES</span>
+            <h3 id="activeSessions">1</h3>
           </div>
         </div>
 
-        <div class="col-md-6 col-xl-3">
-          <div class="dashboard-card">
-            <div class="metric-number">99.9%</div>
-
-            <p>API uptime</p>
+        <div class="col-lg-3 col-md-6">
+          <div class="metric-card">
+            <span class="metric-label">PROVIDER</span>
+            <h3 id="authProvider">Local</h3>
           </div>
         </div>
 
-        <div class="col-md-6 col-xl-3">
-          <div class="dashboard-card">
-            <div class="metric-number">12ms</div>
-
-            <p>Latência da API</p>
+        <div class="col-lg-3 col-md-6">
+          <div class="metric-card">
+            <span class="metric-label">LOGS</span>
+            <h3 id="logsCount">0</h3>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- INFO + LOCATION -->
+      <section class="row g-4 mb-4">
+        <div class="col-lg-6">
+          <div class="dashboard-card">
+            <h2 class="section-title">Perfil</h2>
 
-      <div class="row g-4 mb-4">
-        <!-- USER -->
-
-        <div class="col-lg-7">
-          <div class="dashboard-card h-100">
-            <h3 class="section-title">Sessão Atual</h3>
-
-            <div class="row g-3">
-              <div class="col-md-6">
-                <div class="dashboard-card">
-                  <h5>Usuário</h5>
-
-                  <p>Mateus Felipe</p>
-                </div>
+            <div class="info-list">
+              <div class="info-row">
+                <span>Nome</span>
+                <strong id="userName">Carregando...</strong>
               </div>
 
-              <div class="col-md-6">
-                <div class="dashboard-card">
-                  <h5>E-mail</h5>
-
-                  <p>mateus@email.com</p>
-                </div>
+              <div class="info-row">
+                <span>E-mail</span>
+                <strong id="userEmail">Carregando...</strong>
               </div>
 
-              <div class="col-md-6">
-                <div class="dashboard-card">
-                  <h5>Provider</h5>
-
-                  <p>Local Authentication</p>
-                </div>
+              <div class="info-row">
+                <span>Provider</span>
+                <strong id="authProviderProfile">Local</strong>
               </div>
 
-              <div class="col-md-6">
-                <div class="dashboard-card">
-                  <h5>Status</h5>
-
-                  <p class="status-online">● Sessão ativa</p>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="dashboard-card">
-                  <h5>Dispositivo</h5>
-
-                  <p>Linux Mint • Firefox</p>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="dashboard-card">
-                  <h5>IP Atual</h5>
-
-                  <p>192.168.0.1</p>
-                </div>
+              <div class="info-row">
+                <span>Trocas de Senhas</span>
+                <strong id="userPsswordChange">Carregando...</strong>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- LOCATION -->
-
-        <div class="col-lg-5">
-          <div class="dashboard-card h-100">
-            <h3 class="section-title">Localização do Login 🌍</h3>
-
-            <p>Belo Horizonte - MG, Brasil</p>
-
-            <p class="mt-2 text-secondary">Último acesso realizado às 14:32</p>
-
-            <div class="map-box">
-              <iframe
-                src="https://maps.google.com/maps?q=Belo%20Horizonte&t=&z=11&ie=UTF8&iwloc=&output=embed"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- API / SECURITY / SESSION -->
-
-      <div class="row g-4 mb-4">
-        <!-- API -->
-
-        <div class="col-lg-4">
+        <div class="col-lg-6">
           <div class="dashboard-card">
-            <h3 class="section-title">API Status ⚡</h3>
+            <h2 class="section-title">Segurança</h2>
 
-            <div class="activity-item">
-              <span>Servidor</span>
+            <div class="info-list">
+              <div class="info-row">
+                <span>Providers Vinculados</span>
+                <strong id="linkedProviders">Local</strong>
+              </div>
 
-              <span class="status-online"> ● Online </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Banco de Dados</span>
-
-              <span class="status-online"> ● Conectado </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Memória RAM</span>
-
-              <span> 112MB </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Uptime</span>
-
-              <span> 4h 18min </span>
+              <div class="info-row">
+                <span>Status da Conta</span>
+                <strong id="accountProtectionStatus">Protegida</strong>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- SECURITY -->
-
-        <div class="col-lg-4">
+      <section class="row g-4 mb-4">
+        <div class="col-lg-6">
           <div class="dashboard-card">
-            <h3 class="section-title">Segurança 🔐</h3>
+            <h2 class="section-title">Sessão Atual</h2>
 
-            <div class="activity-item">
-              <span>Login Seguro</span>
+            <div class="info-list">
+              <div class="info-row">
+                <span>Status</span>
+                <strong id="sessionStatus"></strong>
+              </div>
 
-              <span> ✅ </span>
-            </div>
+              <div class="info-row">
+                <span>Expiração</span>
+                <strong id="sessionExpiration">--</strong>
+              </div>
 
-            <div class="activity-item">
-              <span>Sessions</span>
-
-              <span> ✅ </span>
-            </div>
-
-            <div class="activity-item">
-              <span>2FA</span>
-
-              <span> ✅ </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Google OAuth</span>
-
-              <span> 🚧 </span>
+              <div class="info-row">
+                <span>Dispositivo</span>
+                <strong id="sessionDevice">--</strong>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- SESSION -->
-
-        <div class="col-lg-4">
+        <div class="col-lg-6">
           <div class="dashboard-card">
-            <h3 class="section-title">Sessão & Segurança 🍪</h3>
+            <h2 class="section-title">Sessões Ativas</h2>
 
-            <div class="activity-item">
-              <span>Status da Sessão</span>
+            <div class="info-list">
+              <div class="info-row">
+                <span>Total</span>
+                <strong id="totalSessions">1</strong>
+              </div>
 
-              <span class="status-online"> ● Ativa </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Session ID</span>
-
-              <span> #8F29XA1 </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Expiração</span>
-
-              <span> 30 min </span>
-            </div>
-
-            <div class="activity-item">
-              <span>Armazenamento</span>
-
-              <span> Express Session </span>
+              <div class="info-row">
+                <span>Sessão Atual</span>
+                <strong id="device">Este dispositivo</strong>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- LOGS -->
+      <section class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="dashboard-card">
+            <h2 class="section-title">Histórico de Segurança</h2>
 
-      <div class="dashboard-card">
-        <h3 class="section-title">Logs Recentes 📋</h3>
-
-        <div class="activity-item">
-          <span> ✅ Login realizado com sucesso </span>
-
-          <span class="activity-time"> 14:32 </span>
+            <div class="info-list">
+              <div class="info-row">
+                <span>Histórico de Senhas</span>
+                <strong id="passwordHistoryCount">--</strong>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="activity-item">
-          <span> 🌍 Localização validada </span>
+      <section>
+        <div class="dashboard-card">
+          <h2 class="section-title">Logs de Atividade</h2>
 
-          <span class="activity-time"> 14:32 </span>
+          <div id="logsContainer">
+            <div class="empty-state">Nenhum log carregado.</div>
+          </div>
         </div>
-
-        <div class="activity-item">
-          <span> 🔐 Código 2FA validado </span>
-
-          <span class="activity-time"> 14:31 </span>
-        </div>
-
-        <div class="activity-item">
-          <span> ⚡ Sessão criada </span>
-
-          <span class="activity-time"> 14:31 </span>
-        </div>
-
-        <div class="activity-item">
-          <span> 🧠 Frontend conectado à API REST </span>
-
-          <span class="activity-time"> 14:30 </span>
-        </div>
-      </div>
+      </section>
     </main>
+
+    <div class="modal fade" id="changeNameModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Alterar Nome</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label class="form-label">Novo Nome</label>
+            <input type="text" class="form-control" id="newName" />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" id="saveNameBtn">
+              Salvar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="changePasswordModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Alterar Senha</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nova Senha</label>
+              <input type="password" class="form-control" id="newPassword" />
+            </div>
+            <div>
+              <label class="form-label">Confirmar Nova Senha</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="changePasswordBtn"
+            >
+              Alterar Senha
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-danger">Excluir Conta</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Esta ação é permanente e não poderá ser desfeita.</p>
+            <p>Tem certeza que deseja excluir sua conta?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger" id="deleteAccountBtn">
+              Excluir Conta
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE MENSAGEM -->
+
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="messageModalTitle">Mensagem</h5>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="messageModalText" class="mb-0">Mensagem aqui...</p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/pages/index.js"></script>
     <script src="../js/pages/logout.js"></script>
   </body>
 </html>

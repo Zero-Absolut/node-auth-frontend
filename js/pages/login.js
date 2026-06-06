@@ -24,6 +24,10 @@ const apiLogin = async (data) => {
   }
 };
 
+document.getElementById("googleLogin").addEventListener("click", () => {
+  window.location.href = "http://127.0.0.1:8080/api/auth/google";
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
 
@@ -42,8 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const responseApi = await apiLogin(data);
-
-    console.log(responseApi.data);
 
     //conta nao ativa
     if (responseApi.data.code === "ACCOUNT_NOT_ACTIVE") {
@@ -71,8 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2fa
 
     if (responseApi.data.code === "TWO_FACTOR_REQUIRED") {
-      showModal("Sucesso", responseApi.data.message);
-
       setTimeout(() => {
         window.location.href = "http://127.0.0.1:5500/pages/verify2fa.html";
       }, 3000);

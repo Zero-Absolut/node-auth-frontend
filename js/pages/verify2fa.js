@@ -61,8 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (responseApi.data.success) {
-      showModal("Sucesso", responseApi.data.message);
-
       setTimeout(() => {
         window.location.href = "http://127.0.0.1:5500/index.html";
       }, 2500);
